@@ -8,7 +8,7 @@ import MessageList from './MessageList.jsx';
 class App extends Component {
   constructor(props) {
     super(props);
-  this.addMessage = this.addMessage.bind(this)
+  this.addMessage = this.addMessage.bind(this);
   this.state = {
     currentUser: {name: "Bob"},// optional. if currentUser is not defined, it means the user is Anonymous
     messages: [
@@ -37,12 +37,18 @@ componentDidMount() {
     this.setState({messages: messages})
   }, 3000);
 }
-  // nameChange(names) {
-  //   let newName = {
 
-  //   }
-  // }
+  handleNameChange = (event) => {
+    
+    let newName = event.target.value
 
+    console.log(newName)
+    this.setState({
+      currentUser: { name: newName }
+    })
+  }
+
+  
   addMessage(messg) {
     console.log("prop", this.props);
     let message = {
@@ -67,7 +73,7 @@ componentDidMount() {
           <a href="/" className="navbar-brand">Chatty</a>
         </nav>
         <MessageList messages={this.state.messages} />
-        <ChatBar currentUser={this.state.currentUser} addMessages={this.addMessage} nameChange={this.changeName}/>
+        <ChatBar currentUser={this.state.currentUser} addMessages={this.addMessage} handleName={this.handleNameChange}/>
       </div>
     );
   }
