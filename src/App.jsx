@@ -8,7 +8,7 @@ import MessageList from './MessageList.jsx';
 class App extends Component {
   constructor(props) {
     super(props);
-
+  this.addMessage = this.addMessage.bind(this)
   this.state = {
     currentUser: {name: "Bob"},// optional. if currentUser is not defined, it means the user is Anonymous
     messages: [
@@ -26,9 +26,9 @@ class App extends Component {
   }
 }
 componentDidMount() {
-  console.log("componentDidMount <App />");
+  //console.log("componentDidMount <App />");
   setTimeout(() => {
-    console.log("Simulating incoming message");
+    //console.log("Simulating incoming message");
     // Add a new message to the list of messages in the data store
     const newMessage = {id: 3, username: "Michelle", content: "Hello there!"};
     const messages = this.state.messages.concat(newMessage)
@@ -37,6 +37,28 @@ componentDidMount() {
     this.setState({messages: messages})
   }, 3000);
 }
+  // nameChange(names) {
+  //   let newName = {
+
+  //   }
+  // }
+
+  addMessage(messg) {
+    console.log("prop", this.props);
+    let message = {
+      username: this.state.currentUser.name,
+      content: messg
+    };
+    
+    let oldMessage = this.state.messages;
+    let newMessage = [...oldMessage, message];
+    
+    this.setState({
+      messages: newMessage
+    })
+  }
+
+
   
   render() {
     return (
@@ -45,7 +67,7 @@ componentDidMount() {
           <a href="/" className="navbar-brand">Chatty</a>
         </nav>
         <MessageList messages={this.state.messages} />
-        <ChatBar currentUser={this.state.currentUser} />
+        <ChatBar currentUser={this.state.currentUser} addMessages={this.addMessage} nameChange={this.changeName}/>
       </div>
     );
   }
