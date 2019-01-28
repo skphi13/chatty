@@ -39,9 +39,7 @@ componentDidMount() {
 }
 
   handleNameChange = (event) => {
-    
     let newName = event.target.value
-
     console.log(newName)
     this.setState({
       currentUser: { name: newName }
@@ -50,7 +48,6 @@ componentDidMount() {
 
   
   addMessage = (messg) => {
-    console.log("prop", this.props);
     let message = {
       type: 'sendMessage',
       username: this.state.currentUser.name,
@@ -61,6 +58,7 @@ componentDidMount() {
     let oldMessage = this.state.messages;
     let newMessage = [...oldMessage, message];
     this.socket.send(JSON.stringify(message));
+    document.getElementById('message').value = ''
     // this.setState({
     //   messages: newMessage
     // })
