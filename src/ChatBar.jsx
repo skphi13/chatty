@@ -5,9 +5,6 @@ class ChatBar extends Component {
         if (e.key === 'Enter') {
             this.props.addMessages(e.target.value);
         }
-    // changeName = (e) => {
-    //         this.props.newName(e.target.value);
-    //     }
     }
     render() {
       return (

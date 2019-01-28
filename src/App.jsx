@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import ChatBar from './ChatBar.jsx';
 import MessageList from './MessageList.jsx';
-// const ws = new WebSocket('ws://localhost:3001');
 // Generate a v1 (time-based) id
 const uuidv1 = require('uuid/v1');
 uuidv1(); // -> '6c84fb90-12c4-11e1-840d-7b25c5ee775a' 
@@ -10,10 +9,8 @@ const uuidv4 = require('uuid/v4');
 uuidv4(); // -> '110ec58a-a0f2-4ac4-8393-c866d813b8d1' 
 
 
-
-
 class App extends Component {
-  constructor(props) {
+	constructor(props) {
     super(props);
   
   this.socket = new WebSocket(`ws://${window.location.hostname}:3001`);
@@ -24,51 +21,38 @@ class App extends Component {
     };
 }
 
-handleNameChange = (event) => {
-  const newName = event.target.value;
-  const oldName = (this.state.currentUser.name) ? this.state.currentUser.name: 'Anonymous';
-  //if the name is not determined, it is temporarily "Anonymous"
-  console.log(newName)
-  console.log(event.key)
-  if (event.key === "Enter"){
-    if (newName !== oldName){ // change the name only if the new name is different than the previous name
-      this.socket.send(JSON.stringify({
-        type: 'postNotification',
-        content: `${oldName} changed their name to ${newName}`
-      }))
-      this.setState({
-        currentUser: {name: newName}
-      })  
-    }
+	handleNameChange = (event) => {
+  	const newName = event.target.value;
+  	const oldName = (this.state.currentUser.name) ? this.state.currentUser.name: 'Anonymous';
+  	//if the name is not determined, it is temporarily "Anonymous"
+  	if (event.key === "Enter"){
+    	if (newName !== oldName){ // change the name only if the new name is different than the previous name
+      	this.socket.send(JSON.stringify({
+        	type: 'postNotification',
+        	content: `${oldName} changed their name to ${newName}`
+      	}))
+      	this.setState({
+        	currentUser: {name: newName}
+      	})  
+    	}
     
-  }
-}
-  // handleNameChange = (event) => {
-  //   let newName = event.target.value
-  //   console.log(newName)
-  //   this.setState({
-  //     currentUser: { name: newName }
-  //   })
-  // }
+  	}
+	}
+	
+	addMessage = (messg) => {
+		let message = {
+			type: 'postMessage',
+			username: this.state.currentUser.name,
+			content: messg,
+			id: uuidv4()
+		};
+		let oldMessage = this.state.messages;
+		let newMessage = [...oldMessage, message];
+		this.socket.send(JSON.stringify(message));
+		document.getElementById('message').value = ''
+		}
 
-  
-  addMessage = (messg) => {
-    let message = {
-      type: 'postMessage',
-      username: this.state.currentUser.name,
-      content: messg,
-      id: uuidv4()
-    };
-    
-    let oldMessage = this.state.messages;
-    let newMessage = [...oldMessage, message];
-    this.socket.send(JSON.stringify(message));
-    document.getElementById('message').value = ''
-    // this.setState({
-    //   messages: newMessage
-    // })
-  }
-  componentDidMount() {
+	componentDidMount() {
     //console.log("componentDidMount <App />");
     this.socket.addEventListener('open', (event) => {
       console.log("Connected to the server");
@@ -78,7 +62,7 @@ handleNameChange = (event) => {
       switch(data.type) {
       //If the message is a user's message,
         case 'incomingMessage':
-        // handle incoming message
+      // handle incoming message
           const receivedMessage = {
             type: 'incomingMessage',
             username: data.username,
@@ -90,8 +74,8 @@ handleNameChange = (event) => {
             message: allMessages
           })
           break;
-        //If the message is a notification,
-        //it attaches the content and converts it to an actual notification
+      //If the message is a notification,
+      //it attaches the content and converts it to an actual notification
         case 'incomingNotification':
           // handle incoming notification
           const receivedNotification = {
@@ -113,23 +97,8 @@ handleNameChange = (event) => {
         throw new Error('Unknown event type ' + data.type);
       }
     })
-  }
-  // componentDidMount() {
-  //   //console.log("componentDidMount <App />");
-  //   this.socket.addEventListener('open', (event) => {
-  //     console.log("Connected to the server");
-  //   })
-  //   this.socket.addEventListener('message', (message) => {
-  //     let data = JSON.parse(message.data);
-  //     console.log("data:", data);
-  //     let messages = this.state.messages.concat(data);
-  //     console.log(`recieved message from serve: ${message.data}`);
-  //     this.setState({
-  //       messages: messages
-  //     });
-  //   })
-  // }
-  
+	}
+	
   render() {
     return (
       <div>

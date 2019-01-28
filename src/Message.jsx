@@ -4,11 +4,6 @@ import React, {Component} from 'react';
 class Message extends Component {
     constructor(props) {
         super(props);
-    
-      this.state = {
-        content: props.content,
-        
-      }
     }
     render() {
         let {content, username} = this.props
