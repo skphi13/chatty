@@ -18,7 +18,8 @@ class App extends Component {
   
   this.socket = new WebSocket('ws://localhost:3001');
   this.state = {
-      currentUser: {name: ""},
+      users: 0,
+      currentUser: {name: "Anonymous"},
       messages: [] // messages coming from the server will be stored here as they arrive
     };
 }
@@ -88,7 +89,7 @@ handleNameChange = (event) => {
           this.setState({
             message: allMessages
           })
-        break;
+          break;
         //If the message is a notification,
         //it attaches the content and converts it to an actual notification
         case 'incomingNotification':
@@ -102,7 +103,11 @@ handleNameChange = (event) => {
           this.setState({
             messages: allNotifications
           })
-        break;
+          break;
+        case 'userNumber':
+          this.setState({
+            users: data.userNumber
+          })
         default:
           // show an error in the console if the message type is unknown
         throw new Error('Unknown event type ' + data.type);
@@ -130,6 +135,7 @@ handleNameChange = (event) => {
       <div>
         <nav className="navbar">
           <a href="/" className="navbar-brand">Chatty</a>
+          <div className= "userNumber">{this.state.users} users online</div>
         </nav>
         <MessageList messages={this.state.messages} />
         <ChatBar currentUser={this.state.currentUser} addMessages={this.addMessage} handleName={this.handleNameChange}/>
