@@ -44,7 +44,7 @@ class App extends Component {
 		let oldMessage = this.state.messages;
 		let newMessage = [...oldMessage, message];
 		this.socket.send(JSON.stringify(message));
-		document.getElementById('message').value = ''
+		document.getElementById('messageInput').value = ''
 		}
 
 	componentDidMount() {
@@ -69,7 +69,8 @@ class App extends Component {
           const allMessages = this.state.messages.push(receivedMessage)
           this.setState({
             message: allMessages
-          })
+					})
+					window.scrollTo(0,document.querySelector("#message").scrollHeight);
           break;
       //If the message is a notification,
       //it attaches the content and converts it to an actual notification
@@ -83,7 +84,8 @@ class App extends Component {
           const allNotifications = this.state.messages.concat(receivedNotification);
           this.setState({
             messages: allNotifications
-          })
+					})
+					window.scrollTo(0,document.querySelector("#message").scrollHeight);
           break;
         case 'userNumber':
           this.setState({
@@ -95,7 +97,9 @@ class App extends Component {
           // show an error in the console if the message type is unknown
         throw new Error('Unknown event type ' + data.type);
       }
-    })
+		})
+		
+		
 	}
 
   render() {
