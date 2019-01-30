@@ -11,14 +11,22 @@ uuidv4(); // -> '110ec58a-a0f2-4ac4-8393-c866d813b8d1'
 // Set up a callback that will run when a client connects to the server
 // When a client connects they are assigned a socket, represented by
 // the ws parameter in the callback.
+
+let colors = [
+	'#FF0000', '#FFA500', '#FF8C00', '#FFFF00', '#00FF00', '#008000', '#00FFFF', '#87CEEB',
+	'#4169E1', '#FF00FF', '#FF1493', '#9400D3'
+]
 wss.on('connection', (ws) => {
 	console.log('Client connected');
+
+let userColor = colors[Math.floor(Math.random() * colors.length)];
 
 wss.clients.forEach(function each(client) {
     if (client.readyState === client.OPEN) {
 		client.send(JSON.stringify({
 			type: 'userNumber',
-			userNumber: wss.clients.size
+			userNumber: wss.clients.size,
+			userColor: userColor
 			}));
     }
 });
@@ -34,7 +42,8 @@ ws.on('message', function incoming(message) {
 			type: 'incomingMessage',
 			username: parsedMessage.username,
 			content: parsedMessage.content,
-			id: parsedMessage.id,
+			id: uuidv4(),
+			userColor: userColor
 			}
         wss.clients.forEach(function each(client) {
 			if (client.readyState === client.OPEN) {
@@ -48,7 +57,7 @@ ws.on('message', function incoming(message) {
         const newNotification = {
 			type: 'incomingNotification',
 			id: uuidv4(),
-			content: parsedMessage.content
+			content: parsedMessage.content,
 			}
         wss.clients.forEach(function each(client) {
 			if (client.readyState === client.OPEN) {
