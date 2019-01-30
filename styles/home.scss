@@ -1,13 +1,19 @@
 body {
-  background: white;
-  color: black;
+  background: black;
+  background-image: url(https://wallpaper.wiki/wp-content/uploads/2017/04/wallpaper.wiki-Free-cool-wallpapers-PIC-WPD0010062.jpg);
+  color: white;
   font-family: 'Open Sans', sans-serif;
   font-size: 14px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  width: 100%;
+  height: auto;
   margin: 70px 0;
 }
 
+
 .chatbar {
-  background: tomato;
+  background: #398AD7;
   border-top: 1px solid black;
   bottom: 0;
   display: flex;
@@ -15,6 +21,7 @@ body {
   padding: 5px;
   position: fixed;
   right: 0;
+  border-radius: 25px
 }
 
 .chatbar-message,
@@ -38,6 +45,7 @@ body {
 .message {
   display: flex;
   padding: 5px;
+  background: url(https://wallpaper.wiki/wp-content/uploads/2017/04/wallpaper.wiki-Cool-background-wallpapers-themes-media-PIC-WPD0010564.jpg)
 }
 
 .message.system {
@@ -61,7 +69,7 @@ body {
   width: auto;
   height: auto;
   margin-left: 115px;
-  padding-left: 15px;
+  
 }
 
 .message-username {
@@ -70,7 +78,7 @@ body {
 }
 
 .navbar {
-  background: tomato;
+  background: #398AD7;
   border-bottom: 1px solid black;
   height: 60px;
   left: 0;
@@ -78,6 +86,7 @@ body {
   position: fixed;
   right: 0;
   top: 0;
+  border-radius: 15px
 }
 
 .navbar-brand {

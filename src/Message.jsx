@@ -13,7 +13,7 @@ class Message extends Component {
         
         // Returns img tags for imgurls
         const findImageUrl = (str) =>  {
-            const urlMatch = str.match(/(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png)/ig);
+            const urlMatch = str.match(/(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png|jpeg)/ig);
             if (urlMatch == null) {
                 return ' ' + str;
             } else {

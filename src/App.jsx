@@ -51,7 +51,15 @@ class App extends Component {
 		//console.log("componentDidMount <App />");
     this.socket.addEventListener('open', (event) => {
 			console.log("Connected to the server");
-    })
+		})
+		
+		const findUrl = (str) =>  {
+			const urlMatch = str.match(/(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png).*/ig);
+      console.log(urlMatch);
+			let newStr = str.replace(urlMatch, "")
+			return newStr;
+		}
+
     this.socket.addEventListener('message', (message) => {
 			const data = JSON.parse(message.data);
 	
@@ -71,6 +79,10 @@ class App extends Component {
             message: allMessages
 					})
 					window.scrollTo(0,document.querySelector("#message").scrollHeight);
+					let words = findUrl(data.content);
+					console.log("words to speak", words);
+					let utterance = new SpeechSynthesisUtterance(words);
+					speechSynthesis.speak(utterance)
           break;
       //If the message is a notification,
       //it attaches the content and converts it to an actual notification
@@ -90,7 +102,7 @@ class App extends Component {
         case 'userNumber':
           this.setState({
 						users: data.userNumber,
-						userColor: data.userColor
+						// userColor: data.userColor
 					})
 					break;
         default:
@@ -104,7 +116,7 @@ class App extends Component {
 
   render() {
     return (
-      <div>
+      <div className="wrapper">
         <nav className="navbar">
           <a href="/" className="navbar-brand">Chatty</a>
           <div className= "userNumber">{this.state.users} users online</div>
