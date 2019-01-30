@@ -27,7 +27,7 @@ wss.clients.forEach(function each(client) {
 			type: 'userNumber',
 			userNumber: wss.clients.size,
 			userColor: userColor
-			}));
+		}));
     }
 });
 
@@ -71,7 +71,17 @@ ws.on('message', function incoming(message) {
     }
   });
     
-
     // Set up a callback for when a client closes the socket. This usually means they closed their browser.
-ws.on('close', () => console.log('Client disconnected'));
+ws.on('close', () => {
+	console.log('Client disconnected');
+	
+	wss.clients.forEach(function each(client) {
+		if (client.readyState === client.OPEN) {
+			client.send(JSON.stringify({
+				type: 'userNumber',
+				userNumber: wss.clients.size,
+			}));
+		}
+	});
+});
 });

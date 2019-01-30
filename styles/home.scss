@@ -56,6 +56,14 @@ body {
   flex: 8;
 }
 
+.message-content .img {
+  max-width: 60%;
+  width: auto;
+  height: auto;
+  margin-left: 115px;
+  padding-left: 15px;
+}
+
 .message-username {
   flex: 2;
   font-weight: 700;
